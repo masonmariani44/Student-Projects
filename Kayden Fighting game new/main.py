@@ -10,6 +10,8 @@ from player import Player
 pygame.init()
 FPS = 30
 screen = pygame.display.set_mode((600,400))
+surface = pygame.Surface(screen.get_size())
+surface = surface.convert()
 pygame.display.set_caption("Fighting Game")
 clock = pygame.time.Clock()
 
@@ -63,9 +65,9 @@ def update(all_events):
     handle_collision()
 
 def draw():
-    screen.fill((255,255,255))
+    surface.fill((255,255,255))
     level.draw(screen)
-    player.draw(screen)
+    player.draw(screen, surface)
     pygame.display.flip()
 
 def handle_collision():

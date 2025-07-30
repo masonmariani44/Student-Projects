@@ -20,10 +20,11 @@ class Player:
 
         self.animation_timer = 0
         self.attack_animation_frame = 0
+        self.current_attack = None
 
         self.attacks = Attacks_P1()
 
-        self.image = self.attacks.attacks["jab"][0]
+        self.image = self.attacks.attacks["idle"][0]
         self.rect = self.image.get_rect()
 
         #attack assignment
@@ -100,9 +101,12 @@ class Player:
 
 
 
-          # normals
+
+
+
+        # normals
         
-        if pressed_key["normal"] is True:
+        if pressed_key["normal"] is True and self.current_attack is None:
 
             # air normal
             if self.on_ground is False:
@@ -120,11 +124,18 @@ class Player:
                     pass
             # ground normal
             else:
-                self.animate_attack(clock, "jab")
+                self.current_attack = "jab"
+                # set a state for our current animation, and if we should be animating something rn, we shouldnt even be here
 
 
                 # he has the urgent note
-                
+
+        if self.current_attack is not None:
+            self.animate_attack(clock, self.current_attack)
+        else:
+            # TODO we need seperation between animating attacks vs animating other things...
+            self.animate_attack(clock, "idle")
+
 
 
         self.rect.center = Vector2(self.rect.center) + self.velocity
@@ -133,6 +144,7 @@ class Player:
     def animate_attack(self, clock, given_attack):
         if self.attack_animation_frame >= len(self.attacks.attacks[given_attack]):
             self.attack_animation_frame = 0
+            self.current_attack = None
             return False
 
         delta_time = clock.tick(30) / 1000.0
@@ -145,8 +157,30 @@ class Player:
 
 
 
-    def draw(self, screen):
+    def draw(self, screen, surface):
+        
+        player_image = pygame.transform.scale(self.image, self.rect.size)
+        player_image.convert()
+
+        surface.blit(player_image, self.rect)
+        screen.blit(surface, (0, 0))
+        
         #pygame.draw.rect(screen,(255,0,0), self.rect)
         #pygame.Surface.blit(self.image, screen, self.rect)
-        screen.blit(screen, self.rect)
+        #screen.blit(screen, self.rect)
         
+
+
+
+
+"""
+
+update the player state so that we press a key once and an entire animation plays
+
+make the stage load
+
+clear last frame
+
+cycle back to neutral animation
+
+"""

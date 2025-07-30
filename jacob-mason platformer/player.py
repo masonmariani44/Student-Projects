@@ -13,6 +13,7 @@ class Player:
     def __init__(self):
         self.rect = Rect(300, 0, 30, 50)
         self.velocity = Vector2(0, 0)
+        self.on_ground = False
 
     def update(self, events):
 

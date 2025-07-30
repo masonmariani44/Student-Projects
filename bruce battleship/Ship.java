@@ -3,7 +3,8 @@
 public class Ship {
 
     int size;
-    int[][] coords;
+    int x_pos;
+    int y_pos;
     Direction dir;
 
     public enum Direction {
@@ -13,19 +14,16 @@ public class Ship {
         RIGHT
     }
 
-    public Ship(int size, int[][] coords, Direction dir) {
+    public Ship(int size, int x_pos, int y_pos, Direction dir) {
         this.size = size;
-        this.coords = coords;
+        this.x_pos = x_pos;
+        this.y_pos = y_pos;
         this.dir = dir;
     }
 
     static public boolean validate_input(String coord_str, String dir_str) {
 
-        /*
-         * FOR NEXT TIME!!!
-         * Convert out of string (ie make sure input was valid)
-         * 
-         */
+        // TODO!!!!! use direction and length to check if end of ship is out of bounds
 
 
         // first check x coord
@@ -41,11 +39,14 @@ public class Ship {
         }
 
         int first_val = Integer.valueOf(split_str[0]);
-        if (first_val < 1 || first_val > 10) {
+        char second_val = split_str[1].charAt(0);
+
+
+        if (first_val < 0 || first_val > 10) {
             return false;
         }
 
-        char second_val = split_str[1].charAt(0);
+        
         if (second_val < 'a' || second_val > 'j') {
             return false;
         }

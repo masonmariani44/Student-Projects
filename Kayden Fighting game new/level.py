@@ -10,5 +10,16 @@ class Level:
 
     def draw(self, screen):
         for platform in self.platforms:
+
+
+            #TODO this is not done lol
+            player_image = pygame.transform.scale(self.image, self.rect.size)
+            player_image.convert()
+
+            surface.blit(player_image, self.rect)
+            screen.blit(surface, (0, 0))
+
+
+
             pygame.draw.rect(screen, (0,255,0), platform)
             
